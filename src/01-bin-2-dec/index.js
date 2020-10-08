@@ -9,8 +9,9 @@ export default class Bin2Dec extends Component {
   //128  64  32  16  8  4  2  1
   //         0   0   1  1  0  1
   //1 + 4 + 8 = 13
-  dec2binConverter = (binNumber) => {
+  bin2DecConverter = (binNumber) => {
     const arr = binNumber.split("");
+    console.log(/[01]+/g.test(arr));
     const isBin = arr.includes("1") || arr.includes("0");
 
     console.log(isBin);
@@ -33,7 +34,7 @@ export default class Bin2Dec extends Component {
           onChange={(e) => this.setState({ number: e.target.value })}
         />
 
-        <button onClick={() => this.dec2binConverter(number)}>Click</button>
+        <button onClick={() => this.bin2DecConverter(number)}>Click</button>
       </Container>
     );
   }
