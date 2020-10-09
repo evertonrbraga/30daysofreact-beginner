@@ -1,40 +1,49 @@
-import React, { Component } from "react";
+import React, { createRef, Component } from 'react';
 
-import { Container } from "./styles";
+import { Container } from './styles';
 
 export default class Bin2Dec extends Component {
+  numberRef = createRef();
+
   state = {
-    number: null,
+    decimal: '',
   };
   //128  64  32  16  8  4  2  1
-  //         0   0   1  1  0  1
+  // 0   0   0   0   1  1  0  1
   //1 + 4 + 8 = 13
-  bin2DecConverter = (binNumber) => {
-    const arr = binNumber.split("");
-    console.log(/[01]+/g.test(arr));
-    const isBin = arr.includes("1") || arr.includes("0");
-
-    console.log(isBin);
+  bin2DecConverter = () => {
+    const binNumber = this.numberRef.current.value;
+    let binValue = 1;
+    let sum = 0;
 
     binNumber
-      .split("")
+      .split('')
       .reverse()
-      .map((num) => {
-        console.log(num);
+      .map((number) => {
+        if (number > 1) {
+          console.log('> que 1');
+          this.setState({ decimal: 'wroooong' });
+          return;
+        } else {
+          if (number == 1) {
+            sum += binValue;
+          }
+          binValue *= 2;
+          this.setState({ decimal: sum });
+        }
       });
   };
 
   render() {
-    const { number } = this.state;
+    const { decimal } = this.state;
     return (
       <Container>
-        <label htmlFor="num">Number</label>
-        <input
-          id="num"
-          onChange={(e) => this.setState({ number: e.target.value })}
-        />
+        <label htmlFor='num'>Number</label>
+        <input id='num' maxLength={8} ref={this.numberRef} />
 
-        <button onClick={() => this.bin2DecConverter(number)}>Click</button>
+        <h1>{decimal}</h1>
+
+        <button onClick={this.bin2DecConverter}>Click</button>
       </Container>
     );
   }
